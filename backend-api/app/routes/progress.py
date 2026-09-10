@@ -13,7 +13,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 
 from app.auth.middleware import get_current_user
 from app.config import get_settings
@@ -262,7 +262,7 @@ async def compare_images(
 
 @router.delete(
     "/progress/{entry_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
+    status_code=status.HTTP_204_NO_CONTENT, response_class=Response,
     summary="Delete a progress tracker entry",
 )
 async def delete_progress_entry(

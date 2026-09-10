@@ -13,7 +13,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Response
 
 from app.auth.middleware import get_current_user
 from app.config import get_settings
@@ -259,7 +259,7 @@ async def get_screening(
 @router.delete(
     "/screening/{screening_id}",
     summary="Delete a screening record and its associated images",
-    status_code=status.HTTP_204_NO_CONTENT,
+    status_code=status.HTTP_204_NO_CONTENT, response_class=Response,
 )
 async def delete_screening(
     screening_id: str,

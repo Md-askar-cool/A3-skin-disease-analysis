@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict
 from urllib.parse import unquote
 
-from fastapi import APIRouter, Depends, HTTPException, Path, status
+from fastapi import APIRouter, Depends, HTTPException, Path, status, Response
 
 from app.auth.middleware import get_current_user
 from app.config import get_settings
@@ -120,7 +120,7 @@ async def update_profile(
 
 @router.delete(
     "/user",
-    status_code=status.HTTP_204_NO_CONTENT,
+    status_code=status.HTTP_204_NO_CONTENT, response_class=Response,
     summary="Delete the user's account and all associated data",
 )
 async def delete_account(
@@ -173,7 +173,7 @@ async def delete_account(
 
 @router.delete(
     "/user/image/{image_path:path}",
-    status_code=status.HTTP_204_NO_CONTENT,
+    status_code=status.HTTP_204_NO_CONTENT, response_class=Response,
     summary="Delete a specific image from Supabase Storage",
 )
 async def delete_user_image(
