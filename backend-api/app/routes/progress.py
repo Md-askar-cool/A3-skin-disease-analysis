@@ -268,7 +268,7 @@ async def compare_images(
 async def delete_progress_entry(
     entry_id: str,
     user: dict = Depends(get_current_user),
-) -> None:
+):
     """Remove a progress entry. Does NOT delete the underlying image from storage."""
     service = get_supabase_service()
 

@@ -125,7 +125,7 @@ async def update_profile(
 )
 async def delete_account(
     user: dict = Depends(get_current_user),
-) -> None:
+):
     """
     Permanently delete all user data:
     - All screening_history rows
@@ -179,7 +179,7 @@ async def delete_account(
 async def delete_user_image(
     image_path: str = Path(..., description="URL-encoded storage path"),
     user: dict = Depends(get_current_user),
-) -> None:
+):
     """
     Delete a single image from Supabase Storage.
     The path must start with the authenticated user's ID to prevent

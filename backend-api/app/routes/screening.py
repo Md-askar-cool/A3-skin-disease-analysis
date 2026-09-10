@@ -264,7 +264,7 @@ async def get_screening(
 async def delete_screening(
     screening_id: str,
     user: dict = Depends(get_current_user),
-) -> None:
+):
     """Delete a screening record + the image from Supabase Storage."""
     service = get_supabase_service()
 
