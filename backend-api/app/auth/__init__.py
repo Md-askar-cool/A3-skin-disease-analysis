@@ -1,0 +1,1 @@
+# SafeSkin AI – auth package

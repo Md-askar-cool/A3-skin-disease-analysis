@@ -1,0 +1,268 @@
+/* ============================================================
+   SafeSkin AI – Global Styles
+   Tailwind directives + custom CSS
+   ============================================================ */
+
+/* Google Fonts – Inter is loaded via index.html <link> */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base layer overrides ──────────────────────────────────── */
+@layer base {
+  :root {
+    --color-primary: 14 165 233;
+    --color-secondary: 99 102 241;
+    --color-success: 16 185 129;
+    --color-warning: 245 158 11;
+    --color-danger: 239 68 68;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface text-slate-800 font-sans antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  /* Dark mode base */
+  .dark body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  /* Selection colour */
+  ::selection {
+    @apply bg-primary-200 text-primary-900;
+  }
+
+  /* Focus-visible outline */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+  }
+}
+
+/* ── Component layer ───────────────────────────────────────── */
+@layer components {
+  /* Glass morphism card */
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-white/50 shadow-glass;
+  }
+
+  .dark .glass-card {
+    @apply bg-slate-900/80 border-slate-700/50;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent;
+  }
+
+  /* Hero gradient background */
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      #f0f9ff 0%,
+      #e0f2fe 30%,
+      #ede9fe 70%,
+      #f0f9ff 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientX 15s ease infinite;
+  }
+
+  /* Animated gradient border */
+  .gradient-border {
+    position: relative;
+    background: white;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, #0EA5E9, #6366F1);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  /* Shimmer loading placeholder */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      #f0f9ff 25%,
+      #e0f2fe 50%,
+      #f0f9ff 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Step connector line */
+  .step-line::after {
+    content: '';
+    @apply absolute top-6 left-full w-full h-0.5 bg-gradient-to-r from-primary-300 to-secondary-300;
+  }
+
+  /* Result severity badges */
+  .severity-low {
+    @apply bg-success-50 text-success-700 border border-success-200;
+  }
+  .severity-medium {
+    @apply bg-warning-50 text-warning-700 border border-warning-200;
+  }
+  .severity-high {
+    @apply bg-danger-50 text-danger-700 border border-danger-200;
+  }
+}
+
+/* ── Utility layer ─────────────────────────────────────────── */
+@layer utilities {
+  /* Text shadow */
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Safe area padding for mobile */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Custom scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #bae6fd #f0f9ff;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-primary-50 rounded-full;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-primary-300 rounded-full;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-400;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animated underline */
+  .animated-underline {
+    @apply relative;
+  }
+  .animated-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-300;
+  }
+  .animated-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Noise texture overlay */
+  .noise-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+}
+
+/* ── Custom animations ─────────────────────────────────────── */
+@keyframes gradientX {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(1deg); }
+  66% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes rotateCw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Score Ring animation ──────────────────────────────────── */
+@keyframes drawCircle {
+  from { stroke-dashoffset: 314; }
+  to { stroke-dashoffset: var(--offset); }
+}
+
+.score-ring-circle {
+  animation: drawCircle 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+}
+
+/* ── Gauge arc animation ───────────────────────────────────── */
+@keyframes drawArc {
+  from { stroke-dashoffset: 220; }
+  to { stroke-dashoffset: var(--arc-offset); }
+}
+
+.gauge-arc {
+  animation: drawArc 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+}
+
+/* ── Page transition ───────────────────────────────────────── */
+.page-enter {
+  animation: fadeIn 0.4s ease-in-out, slideUp 0.4s ease-out;
+}
+
+/* ── Drop zone dashed border animation ────────────────────── */
+@keyframes dashedMove {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 20; }
+}
+
+/* ── Notification pulse ────────────────────────────────────── */
+@keyframes notifPulse {
+  0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+}
+
+.pulse-badge {
+  animation: notifPulse 2s infinite;
+}

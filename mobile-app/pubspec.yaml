@@ -1,0 +1,66 @@
+﻿name: safeskin_ai
+description: AI-Powered Skin Screening Application - SafeSkin AI
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Supabase - Backend as a service
+  supabase_flutter: ^2.0.0
+
+  # State management
+  flutter_riverpod: ^2.4.0
+
+  # Image handling
+  image_picker: ^1.0.4
+  camera: ^0.10.5
+  cached_network_image: ^3.3.0
+
+  # Networking
+  http: ^1.1.0
+  dio: ^5.3.2
+
+  # Storage & Preferences
+  shared_preferences: ^2.2.0
+
+  # Internationalization
+  intl: ^0.18.1
+
+  # Charts
+  fl_chart: ^0.64.0
+
+  # Animations
+  lottie: ^2.7.0
+  flutter_animate: ^4.2.0
+  shimmer: ^3.0.0
+
+  # Navigation
+  go_router: ^12.0.0
+
+  # Fonts
+  google_fonts: ^6.1.0
+
+  # Permissions
+  permission_handler: ^11.0.1
+
+  # Icons
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/animations/
+    - assets/icons/

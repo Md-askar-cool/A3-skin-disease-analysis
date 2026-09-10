@@ -1,0 +1,96 @@
+﻿{
+  "version": "1.0",
+  "description": "SafeSkin AI – skin condition class registry. Edit this file to add or rename classes; the classifier will pick them up automatically.",
+  "classes": [
+    {
+      "id": "acne_vulgaris",
+      "display_name": "Acne Vulgaris",
+      "severity_supported": true,
+      "severity_levels": ["mild", "moderate", "severe"],
+      "icd10": "L70.0",
+      "description": "Common inflammatory skin condition caused by clogged hair follicles with oil and dead skin cells.",
+      "requires_urgent_review": false
+    },
+    {
+      "id": "eczema_atopic_dermatitis",
+      "display_name": "Eczema / Atopic Dermatitis",
+      "severity_supported": true,
+      "severity_levels": ["mild", "moderate", "severe"],
+      "icd10": "L20.9",
+      "description": "Chronic inflammatory skin condition causing itchy, inflamed, and cracked skin.",
+      "requires_urgent_review": false
+    },
+    {
+      "id": "psoriasis",
+      "display_name": "Psoriasis",
+      "severity_supported": true,
+      "severity_levels": ["mild", "moderate", "severe"],
+      "icd10": "L40.9",
+      "description": "Autoimmune condition causing rapid skin cell buildup, resulting in scaling on the skin's surface.",
+      "requires_urgent_review": false
+    },
+    {
+      "id": "melanoma",
+      "display_name": "Melanoma",
+      "severity_supported": false,
+      "severity_levels": ["unable_to_assess"],
+      "icd10": "C43.9",
+      "description": "The most serious type of skin cancer, developing in melanin-producing cells.",
+      "requires_urgent_review": true
+    },
+    {
+      "id": "basal_cell_carcinoma",
+      "display_name": "Basal Cell Carcinoma",
+      "severity_supported": false,
+      "severity_levels": ["unable_to_assess"],
+      "icd10": "C44.91",
+      "description": "The most common type of skin cancer arising from basal cells in the deepest layer of the epidermis.",
+      "requires_urgent_review": true
+    },
+    {
+      "id": "seborrheic_keratosis",
+      "display_name": "Seborrheic Keratosis",
+      "severity_supported": false,
+      "severity_levels": ["unable_to_assess"],
+      "icd10": "L82.1",
+      "description": "A common benign skin growth that appears as a waxy, wart-like, or scaly lesion.",
+      "requires_urgent_review": false
+    },
+    {
+      "id": "tinea_ringworm",
+      "display_name": "Tinea / Ringworm",
+      "severity_supported": true,
+      "severity_levels": ["mild", "moderate", "severe"],
+      "icd10": "B35.9",
+      "description": "A common fungal infection of the skin causing a ring-shaped rash.",
+      "requires_urgent_review": false
+    },
+    {
+      "id": "urticaria_hives",
+      "display_name": "Urticaria / Hives",
+      "severity_supported": true,
+      "severity_levels": ["mild", "moderate", "severe"],
+      "icd10": "L50.9",
+      "description": "Red, itchy welts that result from a skin reaction, often triggered by allergens.",
+      "requires_urgent_review": false
+    },
+    {
+      "id": "vitiligo",
+      "display_name": "Vitiligo",
+      "severity_supported": false,
+      "severity_levels": ["unable_to_assess"],
+      "icd10": "L80",
+      "description": "A long-term skin condition characterized by patches of skin losing their pigment.",
+      "requires_urgent_review": false
+    },
+    {
+      "id": "rosacea",
+      "display_name": "Rosacea",
+      "severity_supported": true,
+      "severity_levels": ["mild", "moderate", "severe"],
+      "icd10": "L71.9",
+      "description": "A common skin condition causing redness and visible blood vessels in the face.",
+      "requires_urgent_review": false
+    }
+  ]
+}
