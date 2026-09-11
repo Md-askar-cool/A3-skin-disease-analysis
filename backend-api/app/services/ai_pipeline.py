@@ -161,25 +161,25 @@ def check_image_quality(image_bytes: bytes) -> ImageQualityResult:
 
         # ── Determine status ─────────────────────────────────────────
         if not blur_ok:
-            status = "too_blurry"
+            status = "poor"
             message = f"Image is too blurry (sharpness={lap_var:.1f}). Please retake in better lighting."
         elif not brightness_ok:
-            status = "too_dark" if mean_brightness <= 30 else "too_bright"
+            status = "poor"
             message = "Lighting is poor. Try again in natural light."
         elif not resolution_ok:
-            status = "low_resolution"
-            message = f"Image resolution ({w}×{h}) is too low. Minimum 224×224 required."
+            status = "poor"
+            message = f"Image resolution ({w}x{h}) is too low. Minimum 224x224 required."
         elif not skin_ok:
-            status = "no_skin"
+            status = "poor"
             message = "No skin detected in the image. Ensure the affected area is visible."
         else:
-            status = "ok"
+            status = "acceptable"
             message = "Image quality is acceptable."
 
         checks = {
-            "sharpness": {"passed": blur_ok, "score": min(1.0, lap_var / 100.0) if blur_ok else 0.4},
-            "brightness": {"passed": brightness_ok, "score": 1.0 - abs(mean_brightness - 125)/125},
-            "resolution": {"passed": resolution_ok, "score": 1.0 if resolution_ok else 0.5},
+            "sharpness": {"passed": bool(blur_ok), "score": float(min(1.0, lap_var / 100.0)) if blur_ok else 0.4},
+            "brightness": {"passed": bool(brightness_ok), "score": float(1.0 - abs(mean_brightness - 125)/125)},
+            "resolution": {"passed": bool(resolution_ok), "score": 1.0 if resolution_ok else 0.5},
             "contrast": {"passed": True, "score": 0.88},
             "noise": {"passed": True, "score": 0.92},
             "artifact": {"passed": True, "score": 0.95},
@@ -200,7 +200,7 @@ def _quality_failure(message: str) -> ImageQualityResult:
     """Return a failed quality result."""
     return ImageQualityResult(
         overall_score=0,
-        status="quality_failed",
+        status="poor",
         can_proceed=False,
         checks={
             "sharpness": {"passed": False, "score": 0},
