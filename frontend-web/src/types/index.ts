@@ -29,7 +29,7 @@ export type ConditionType =
 export interface ScreeningResult {
   id: string;
   user_id: string;
-  image_url: string;
+  signed_url: string;
   gradcam_url?: string;
   label: ScreeningLabel;
   condition: ConditionType;
@@ -71,7 +71,7 @@ export interface QualityResult {
 export interface ProgressImage {
   id: string;
   user_id: string;
-  image_url: string;
+  signed_url: string;
   thumbnail_url?: string;
   notes?: string;
   screening_id?: string;        // linked screening if any
@@ -94,7 +94,7 @@ export interface ProgressComparison {
 // ── History ───────────────────────────────────────────────────
 export interface ScreeningHistoryItem {
   id: string;
-  image_url: string;
+  signed_url: string;
   thumbnail_url?: string;
   label: ScreeningLabel;
   condition: ConditionType;
@@ -169,8 +169,8 @@ export interface ApiError {
 
 // ── Upload ────────────────────────────────────────────────────
 export interface UploadResponse {
-  image_id: string;
-  image_url: string;
+  storage_path: string;
+  signed_url: string;
   message: string;
 }
 

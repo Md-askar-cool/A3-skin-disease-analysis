@@ -85,7 +85,7 @@ api.interceptors.response.use(
 
 // ── Upload image ──────────────────────────────────────────────
 /**
- * Uploads an image file to the backend and returns an image_id + URL.
+ * Uploads an image file to the backend and returns a storage path.
  * Uses multipart/form-data.
  */
 export async function uploadImage(file: File): Promise<UploadResponse> {
@@ -102,46 +102,31 @@ export async function uploadImage(file: File): Promise<UploadResponse> {
   return data;
 }
 
-// ── Quality check ─────────────────────────────────────────────
+// ── Analyze image ──────────────────────────────────────────────
 /**
- * Runs the image quality pipeline on an already-uploaded image.
+ * Runs the full AI pipeline on an already-uploaded image.
  */
-export async function checkQuality(imageId: string): Promise<QualityResult> {
-  const { data } = await api.post<QualityResult>('/quality-check', {
-    image_id: imageId,
+export async function analyzeImage(storagePath: string): Promise<ScreeningResult> {
+  const { data } = await api.post<ScreeningResult>('/analyze-image', {
+    image_path: storagePath,
   });
   return data;
 }
 
-// ── Analyze image ─────────────────────────────────────────────
+// ── Full pipeline: upload + analyze ──────────────────────────
 /**
- * Runs AI screening on an already-uploaded, quality-approved image.
- */
-export async function analyzeImage(imageId: string): Promise<ScreeningResult> {
-  const { data } = await api.post<ScreeningResult>('/analyze', {
-    image_id: imageId,
-  });
-  return data;
-}
-
-// ── Full pipeline: upload + quality + analyze ─────────────────
-/**
- * Convenience function: upload → quality → analyze in sequence.
+ * Convenience function: upload + analyze in sequence.
  * Callers can pass callbacks for each stage.
  */
 export async function runFullScreening(
   file: File,
-  onStage?: (stage: 'quality' | 'analyzing') => void,
-): Promise<{ quality: QualityResult; screening: ScreeningResult }> {
+  onStage?: (stage: 'uploading' | 'analyzing') => void,
+): Promise<{ screening: ScreeningResult }> {
+  onStage?.('uploading');
   const uploaded = await uploadImage(file);
-  onStage?.('quality');
-  const quality = await checkQuality(uploaded.image_id);
-  if (!quality.can_proceed) {
-    return { quality, screening: null as unknown as ScreeningResult };
-  }
   onStage?.('analyzing');
-  const screening = await analyzeImage(uploaded.image_id);
-  return { quality, screening };
+  const screening = await analyzeImage(uploaded.storage_path);
+  return { screening };
 }
 
 // ── Screening history ─────────────────────────────────────────

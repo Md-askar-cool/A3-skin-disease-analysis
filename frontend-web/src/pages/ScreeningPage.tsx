@@ -7,29 +7,7 @@ import GradCAMViewer from '../components/screening/GradCAMViewer';
 import { AlertTriangle, CheckCircle, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-// Mock API Call - replace with real API call later
-const mockAnalyzeImage = async (file: File) => {
-  return new Promise<any>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        image_quality: {
-          overall_score: 85,
-          status: 'acceptable',
-          can_proceed: true,
-          message: 'Image is clear enough for analysis.',
-          checks: { blur: true, brightness: true, resolution: true }
-        },
-        screening_result: 'potentially_affected',
-        possible_condition: 'Eczema / Atopic Dermatitis',
-        confidence: 0.88,
-        confidence_level: 'moderate',
-        severity_estimate: 'mild',
-        gradcam_url: null,
-        recommendation: 'This is an AI screening result and not a medical diagnosis.'
-      });
-    }, 2000);
-  });
-};
+import { runFullScreening } from '../lib/api';
 
 const ScreeningPage = () => {
   const [state, setState] = useState<'upload' | 'analyzing' | 'quality_fail' | 'results'>('upload');
@@ -46,7 +24,8 @@ const ScreeningPage = () => {
     if (!selectedFile) return;
     setState('analyzing');
     try {
-      const data = await mockAnalyzeImage(selectedFile);
+      const { screening: data } = await runFullScreening(selectedFile);
+      
       if (data.image_quality.overall_score < 50) {
         setResults(data);
         setState('quality_fail');
@@ -56,6 +35,7 @@ const ScreeningPage = () => {
       }
     } catch (error) {
       console.error(error);
+      alert('Error connecting to AI backend. Please try again.');
       setState('upload');
     }
   };
