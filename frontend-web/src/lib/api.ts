@@ -16,7 +16,7 @@ import { supabase } from './supabase';
 
 // ── Axios instance ────────────────────────────────────────────
 export const api = axios.create({
-  baseURL: (import.meta.env.VITE_API_URL as string) ?? 'http://localhost:8000',
+  baseURL: ((import.meta.env.VITE_API_URL as string) || 'http://localhost:8000') + '/api/v1',
   timeout: 60_000, // 60 s – AI inference can be slow
   headers: {
     'Content-Type': 'application/json',
