@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     # ------------------------------------------------------------------ #
     # CORS – stored as a comma-separated string, parsed to list
     # ------------------------------------------------------------------ #
-    allowed_origins: str = "http://localhost:5173,http://localhost:3000"
+    allowed_origins: str = "http://localhost:5173,http://localhost:3000,https://safeskin-web-iota.vercel.app"
 
     @property
     def allowed_origins_list(self) -> List[str]:
