@@ -15,19 +15,17 @@ from pydantic import BaseModel, Field, field_validator
 # Image Quality
 # ======================================================================
 
-class QualityChecks(BaseModel):
-    """Breakdown of individual quality checks."""
-    blur: bool = Field(..., description="True if image is NOT blurry")
-    brightness: bool = Field(..., description="True if brightness is acceptable")
-    resolution: bool = Field(..., description="True if resolution is sufficient")
-    skin_visibility: bool = Field(..., description="True if skin is visible")
-
+class QualityCheckDetail(BaseModel):
+    passed: bool
+    score: float
+    message: Optional[str] = None
 
 class ImageQualityResult(BaseModel):
     """Result returned by the image quality analysis step."""
-    score: int = Field(..., ge=0, le=100, description="Composite quality score 0-100")
+    overall_score: int = Field(..., ge=0, le=100, description="Composite quality score 0-100")
     status: str = Field(..., description="ok | too_blurry | too_dark | too_bright | low_resolution | no_skin")
-    checks: QualityChecks
+    can_proceed: bool = Field(True, description="Whether the pipeline should continue")
+    checks: Dict[str, QualityCheckDetail]
     message: str = Field(..., description="Human-readable quality feedback")
 
 
