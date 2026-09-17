@@ -200,7 +200,7 @@ const ScreeningPage = () => {
                     </div>
                     
                     {results.gradcam_url && previewUrl && (
-                      <GradCAMViewer originalUrl={previewUrl} heatmapUrl={results.gradcam_url} />
+                      <GradCAMViewer originalUrl={previewUrl} gradcamUrl={results.gradcam_url} confidence={results.confidence} />
                     )}
                   </>
                 )}
