@@ -446,9 +446,9 @@ def run_full_pipeline(
     """
     # ── Step 1: Quality check ─────────────────────────────────────────
     quality = check_image_quality(image_bytes)
-    logger.info("Quality check: score=%d status=%s", quality.score, quality.status)
+    logger.info("Quality check: score=%d status=%s", quality.overall_score, quality.status)
 
-    if quality.score < settings.image_quality_threshold:
+    if quality.overall_score < settings.image_quality_threshold:
         logger.info("Image quality too low – skipping AI analysis.")
         return ScreeningResponse(
             image_quality=quality,

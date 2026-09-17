@@ -131,7 +131,7 @@ async def analyze_image(
         "confidence": result.confidence,
         "confidence_level": result.confidence_level,
         "severity_estimate": result.severity_estimate,
-        "quality_score": result.image_quality.score,
+        "quality_score": result.image_quality.overall_score,
         "quality_status": result.image_quality.status,
         "gradcam_path": None,  # Could store path separately
         "model_version": result.model_version,
