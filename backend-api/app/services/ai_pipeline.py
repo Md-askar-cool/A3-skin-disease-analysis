@@ -428,6 +428,25 @@ def get_recommendation(screening_result: str, condition: Optional[str]) -> str:
 # Main Pipeline Orchestrator
 # ======================================================================
 
+def _resize_image_bytes(image_bytes: bytes, max_dim: int = 1024) -> bytes:
+    try:
+        import cv2
+        import numpy as np
+        nparr = np.frombuffer(image_bytes, np.uint8)
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        if img is None:
+            return image_bytes
+        h, w = img.shape[:2]
+        if max(h, w) > max_dim:
+            scale = max_dim / max(h, w)
+            img = cv2.resize(img, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_AREA)
+            success, encoded = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, 90])
+            if success:
+                return encoded.tobytes()
+    except Exception:
+        pass
+    return image_bytes
+
 def run_full_pipeline(
     image_bytes: bytes,
     user_id: Optional[str] = None,
@@ -439,11 +458,14 @@ def run_full_pipeline(
     Args:
         image_bytes:           Raw bytes of the uploaded image.
         user_id:               Supabase user ID (used for Grad-CAM storage path).
-        upload_gradcam_callback: Optional async-compatible callable(bytes, path) → signed_url.
+        upload_gradcam_callback: Optional async-compatible callable(bytes, path) -> signed_url.
 
     Returns:
         ScreeningResponse populated with all analysis results.
     """
+    # Downscale HD images to prevent out-of-memory (OOM) crashes on Render free tier
+    image_bytes = _resize_image_bytes(image_bytes)
+
     # ── Step 1: Quality check ─────────────────────────────────────────
     quality = check_image_quality(image_bytes)
     logger.info("Quality check: score=%d status=%s", quality.overall_score, quality.status)
