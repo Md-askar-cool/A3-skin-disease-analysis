@@ -33,9 +33,10 @@ const ScreeningPage = () => {
         setResults(data);
         setState('results');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('Error connecting to AI backend. Please try again.');
+      const errorMsg = error?.message || 'Error connecting to AI backend.';
+      alert(`Analysis failed: ${errorMsg}\nPlease try again or contact support.`);
       setState('upload');
     }
   };
